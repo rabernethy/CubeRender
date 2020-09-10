@@ -26,10 +26,10 @@ public class Renderer
 		for (int i=x0;i<=x1;i++){
 			screen[i,y] = 1;
 			if (D>0) {
-				y = y  + yi;
-				D = D - 2*dx;
+				y += yi;
+				D -= 2*dx;
 			}
-			D = D + 2*dy;
+			D += 2*dy;
 		}
 		return screen;
 	}
@@ -49,10 +49,10 @@ public class Renderer
 		for (int y=y0;y<=y1;y++){
 			screen[x,y] = 1;
 			if (D>0) {
-				x = x  + xi;
-				D = D - 2*dy;
+				x += xi;
+				D -= 2*dy;
 			}
-			D = D + 2*dx;
+			D += 2*dx;
 		}
 		return screen;
 	}
@@ -60,17 +60,15 @@ public class Renderer
 	public static int[,] line(ref int[,] screen, int x0, int y0, int x1, int y1)
 	{
 		if (Math.Abs(y1 - y0) < Math.Abs(x1 - x0)) {
-			if (x0 > x1){
+			if (x0 > x1)
 				return lineLow(screen, x1, y1, x0, y0);
-			} else {
+			else 
 				return lineLow(screen, x0, y0, x1, y1);
-			}
 		} else {
-			if (y0 > y1){
+			if (y0 > y1)
 				return lineHigh(screen, x1, y1, x0, y0);
-			} else {
+			else
 				return lineHigh(screen, x0, y0, x1, y1);
-			}
 		}
 	}
 
@@ -86,11 +84,13 @@ public class Renderer
 			int n1 = edges[e][1];
 			int[] node0 = nodes[n0];
 			int[] node1 = nodes[n1];
-			if (!(bounds(screen, node0) && bounds(screen, node1))) { continue; }
+			if (!(bounds(screen, node0) && bounds(screen, node1)))
+				continue;
 			screen = line(ref screen, node0[0], node0[1], node1[0], node1[1]);
 		}
 		foreach (int[] node in nodes) {
-			if (!bounds(screen, node)) { continue; }
+			if (!bounds(screen, node))
+				continue;
 			screen[node[0], node[1]] = 1;
 		}
 		return screen;
